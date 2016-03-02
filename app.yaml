@@ -1,0 +1,15 @@
+runtime: go
+api_version: go1
+application: githubcompare-backend
+version: v1
+
+handlers:
+- url: /api/.*
+  script: _go_app
+- url: /lib
+  static_dir: web/lib
+- url: .*
+  static_dir: web
+
+inbound_services:
+- warmup
