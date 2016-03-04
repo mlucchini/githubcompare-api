@@ -1,18 +1,51 @@
-var starsApi = "/api/stars"
-var repository = "mlucchini/githubcompare"
-var url = starsApi + "/" + repository
+(function() {
+    function getUrlParameterByName(name, url) {
+         if (!url) url = window.location.href;
+         name = name.replace(/[\[\]]/g, "\\$&");
+         var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex.exec(url);
+         if (!results) return null;
+         if (!results[2]) return '';
+         return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+    function makeChart(svg) {
+        var chart = new dimple.chart(svg);
+        var x = chart.addCategoryAxis("x", "date");
+        x.title = "Date";
+        x.timeField = "date";
+        var y = chart.addMeasureAxis("y", "stars");
+        y.title = "Popularity"
+        chart.addLegend(60, 10, 500, 20, "right");
+        window.onresize = function() {
+            chart.draw(0, true);
+        };
+        return chart;
+    }
+    function populateChart(chart, repositories) {
+        repositories.forEach(function(repository) {
+            d3.json("https://api.github.com/repos/" + repository, function(repoData) {
+                d3.json("/api/stars/" + repository, function (starsData) {
+                    if (starsData.length > 0) {
+                        var starsNextDay = repoData.watchers_count;
+                        for (var i = starsData.length - 1; i >= 0; i--) {
+                            starsData[i].stars = Math.max(0, starsNextDay - starsData[i].stars);
+                            starsNextDay = starsData[i].stars;
+                        }
+                        addChartSeries(chart, starsData, repository);
+                    }
+                });
+            });
+        })
+    }
+    function addChartSeries(chart, data, title) {
+        var series = chart.addSeries(title, dimple.plot.line);
+        series.interpolation = "cardinal";
+        series.data = data;
+        chart.draw(1000);
+    }
 
-var svg = dimple.newSvg("#chartContainer", 590, 400);
-d3.json(url, function (data) {
-  var myChart = new dimple.chart(svg, data);
-  myChart.setBounds(60, 30, 505, 305);
-  myChart.addCategoryAxis("x", "date");
+    var repositories = getUrlParameterByName("repositories").split(",")
+    var svg = dimple.newSvg("#chartContainer", "90%", "90%");
+    var chart = makeChart(svg);
 
-  myChart.addMeasureAxis("y", "stars");
-
-  var s = myChart.addSeries(repository, dimple.plot.line);
-  s.interpolation = "cardinal";
-
-  myChart.addLegend(60, 10, 500, 20, "right");
-  myChart.draw();
-});
+    populateChart(chart, repositories)
+})()
