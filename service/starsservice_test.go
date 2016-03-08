@@ -12,7 +12,7 @@ func TestGivenEmptyStoreWhenFilterOnRepositorySortByDateThenReturnEmptySlice(t *
 	ctx, done := testutil.MockContext(t)
 	defer done()
 
-	result, err := (&StarsService{}).FilterOnRepositorySortByDate(ctx, "MyRepo")
+	result, err := (&StarsService{ ctx }).FilterOnRepositorySortByDate("repo")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -24,12 +24,12 @@ func TestGivenThreeEntitiesWhenFilterOnRepositorySortByDateThenReturnTwoEntities
 	ctx, done := testutil.MockContext(t)
 	defer done()
 	testutil.LoadStore(ctx, []*model.RepositoryStarEvent{
-		&model.RepositoryStarEvent{ "Repo1", time.Now(), 42 },
-		&model.RepositoryStarEvent{ "Repo2", time.Now(), 43 },
-		&model.RepositoryStarEvent{ "Repo1", time.Now().Add(time.Hour * 24), 44 },
+		&model.RepositoryStarEvent{ "repo1", time.Now(), 42 },
+		&model.RepositoryStarEvent{ "repo2", time.Now(), 43 },
+		&model.RepositoryStarEvent{ "repo1", time.Now().Add(time.Hour * 24), 44 },
 	}, t)
 
-	result, err := (&StarsService{}).FilterOnRepositorySortByDate(ctx, "Repo1")
+	result, err := (&StarsService{ ctx }).FilterOnRepositorySortByDate("repo1")
 	if err != nil {
 		t.Fatal(err)
 	}

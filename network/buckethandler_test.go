@@ -3,19 +3,21 @@ package network
 import (
 	"testing"
 	"google.golang.org/appengine/aetest"
-	"google.golang.org/cloud/storage"
+	"github.com/stretchr/testify/assert"
+	"fmt"
 )
 
-func TestReadFile(t *testing.T) {
-	ctx, done, err := aetest.NewContext()
+func TestGivenInexistingFileWhenReadFromStorageThenFailsOnInexistingObject(t *testing.T) {
+	ctx, ctxDone, err := aetest.NewContext()
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer done()
+	defer ctxDone()
 
-	client, err := storage.NewClient(ctx)
-	bucket := client.Bucket("MyBucket")
+	bh := BucketHandler{ ctx }
+	reader, bucketDone, err := bh.Reader("bucket", "file")
+	fmt.Printf("%+v, %+v", reader, err)
+	defer bucketDone()
 
-	bh := BucketHandler{ Bucket: bucket, Context: ctx }
-	bh.ReadFile("MyFile")
+	assert.Equal(t, err.Error(), "storage: object doesn't exist")
 }

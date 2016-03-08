@@ -6,13 +6,15 @@ import (
 	"github.com/mlucchini/github-compare-backend/model"
 )
 
-type StarsService struct {}
+type StarsService struct {
+	Context context.Context
+}
 
-func (self *StarsService) FilterOnRepositorySortByDate(ctx context.Context, repositoryName string) ([]*model.RepositoryStarEvent, error) {
+func (self *StarsService) FilterOnRepositorySortByDate(repositoryName string) ([]*model.RepositoryStarEvent, error) {
 	query := datastore.NewQuery(repositoryStarEventKind).Filter("RepositoryName =", repositoryName).Order("Date")
 
 	events := make([]*model.RepositoryStarEvent, 0)
-	_, err := query.GetAll(ctx, &events)
+	_, err := query.GetAll(self.Context, &events)
 
 	return events, err
 }

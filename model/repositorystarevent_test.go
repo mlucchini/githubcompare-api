@@ -8,8 +8,8 @@ import (
 
 func TestString(t *testing.T) {
 	now := time.Now()
-	event := RepositoryStarEvent{ RepositoryName: "MyRepo", Date: now, Stars: 42 }
-	expected := "MyRepo," + now.Format(YearMonthDayFormat) + ",42"
+	event := RepositoryStarEvent{ RepositoryName: "repo", Date: now, Stars: 42 }
+	expected := "repo," + now.Format(YearMonthDayFormat) + ",42"
 
 	result := event.String()
 
@@ -20,10 +20,10 @@ func TestString(t *testing.T) {
 
 func TestParse(t *testing.T) {
 	now, _ := time.Parse(YearMonthDayFormat, time.Now().Format(YearMonthDayFormat))
-	expected := RepositoryStarEvent{ "MyRepo", now, 42 }
+	expected := RepositoryStarEvent{ "repo", now, 42 }
 
 	result := RepositoryStarEvent{}
-	err := result.Parse("MyRepo," + now.Format(YearMonthDayFormat) + ",42")
+	err := result.Parse("repo," + now.Format(YearMonthDayFormat) + ",42")
 
 	if err != nil {
 		t.Errorf("Error while parsing; result = %+v", result)

@@ -14,7 +14,7 @@ func (self *StarsController) Get(w http.ResponseWriter, r *http.Request, params 
 	repositoryName := params.ByName("org") + "/" + params.ByName("repository")
 
 	ctx := appengine.NewContext(r)
-	events, err := (&service.StarsService{}).FilterOnRepositorySortByDate(ctx, repositoryName)
+	events, err := (&service.StarsService{ ctx }).FilterOnRepositorySortByDate(repositoryName)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
