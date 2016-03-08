@@ -24,9 +24,9 @@ func TestGivenThreeEntitiesWhenFilterOnRepositorySortByDateThenReturnTwoEntities
 	ctx, done := testutil.MockContext(t)
 	defer done()
 	testutil.LoadStore(ctx, []*model.RepositoryStarEvent{
-		&model.RepositoryStarEvent{ RepositoryName: "Repo1", Date: time.Now(), Stars: 42 },
-		&model.RepositoryStarEvent{ RepositoryName: "Repo2", Date: time.Now(), Stars: 43 },
-		&model.RepositoryStarEvent{ RepositoryName: "Repo1", Date: time.Now().Add(time.Hour * 24), Stars: 44 },
+		&model.RepositoryStarEvent{ "Repo1", time.Now(), 42 },
+		&model.RepositoryStarEvent{ "Repo2", time.Now(), 43 },
+		&model.RepositoryStarEvent{ "Repo1", time.Now().Add(time.Hour * 24), 44 },
 	}, t)
 
 	result, err := (&StarsService{}).FilterOnRepositorySortByDate(ctx, "Repo1")

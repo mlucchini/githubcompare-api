@@ -20,7 +20,7 @@ func TestString(t *testing.T) {
 
 func TestParse(t *testing.T) {
 	now, _ := time.Parse(YearMonthDayFormat, time.Now().Format(YearMonthDayFormat))
-	expected := RepositoryStarEvent{ RepositoryName: "MyRepo", Date: now, Stars: 42 }
+	expected := RepositoryStarEvent{ "MyRepo", now, 42 }
 
 	result := RepositoryStarEvent{}
 	err := result.Parse("MyRepo," + now.Format(YearMonthDayFormat) + ",42")

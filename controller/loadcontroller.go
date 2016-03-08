@@ -11,9 +11,9 @@ import (
 	"github.com/mlucchini/github-compare-backend/network"
 )
 
-type StorageController struct {}
+type LoadController struct {}
 
-func (self *StorageController) Update(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+func (self *LoadController) Update(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 	bucket, file := params.ByName("bucket"), params.ByName("file")
 
 	ctx := appengine.NewContext(r)
@@ -40,9 +40,9 @@ func (self *StorageController) Update(w http.ResponseWriter, r *http.Request, pa
 	scanner := bufio.NewScanner(reader)
 	for scanner.Scan() {
 		line := scanner.Text()
-		var repositoryDateStars model.RepositoryStarEvent
-		repositoryDateStars.Parse(line)
-		fmt.Fprintf(w, repositoryDateStars.String())
+		var repositoryStarEvent model.RepositoryStarEvent
+		repositoryStarEvent.Parse(line)
+		fmt.Fprintf(w, repositoryStarEvent.String())
 
 		/*key := datastore.NewKey(ctx, kind, "stringID", 0, nil)
 		entity := new(RepositoryStarEvent)

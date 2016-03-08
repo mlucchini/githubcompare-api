@@ -1,4 +1,4 @@
-source=~/.githubcompare/store/part-00000
+source=~/.githubcompare/store/part-test
 
 while IFS=, read repository day stars
 do
