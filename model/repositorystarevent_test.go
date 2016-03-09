@@ -4,6 +4,7 @@ import (
 	"testing"
 	"reflect"
 	"time"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestString(t *testing.T) {
@@ -25,9 +26,7 @@ func TestParse(t *testing.T) {
 	result := RepositoryStarEvent{}
 	err := result.Parse("repo," + now.Format(YearMonthDayFormat) + ",42")
 
-	if err != nil {
-		t.Errorf("Error while parsing; result = %+v", result)
-	}
+	assert.Nil(t, err)
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("result = %+v; expected = %+v", result, expected)
 	}

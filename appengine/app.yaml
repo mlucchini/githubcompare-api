@@ -4,6 +4,9 @@ application: githubcompare-backend
 version: v1
 
 handlers:
+- url: /api/admin/.*
+  script: _go_app
+  login: admin
 - url: /api/.*
   script: _go_app
 - url: /lib

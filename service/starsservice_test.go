@@ -13,10 +13,8 @@ func TestGivenEmptyStoreWhenFilterOnRepositorySortByDateThenReturnEmptySlice(t *
 	defer done()
 
 	result, err := (&StarsService{ ctx }).FilterOnRepositorySortByDate("repo")
-	if err != nil {
-		t.Fatal(err)
-	}
 
+	assert.Nil(t, err)
 	assert.Equal(t, 0, len(result))
 }
 
@@ -30,9 +28,7 @@ func TestGivenThreeEntitiesWhenFilterOnRepositorySortByDateThenReturnTwoEntities
 	}, t)
 
 	result, err := (&StarsService{ ctx }).FilterOnRepositorySortByDate("repo1")
-	if err != nil {
-		t.Fatal(err)
-	}
 
+	assert.Nil(t, err)
 	assert.Equal(t, 2, len(result))
 }
