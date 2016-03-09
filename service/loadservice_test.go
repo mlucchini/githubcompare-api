@@ -26,7 +26,7 @@ func TestGivenEmptyStoreWhenPutMultiTwoEntitiesThenStoreHasTwoEntities(t *testin
 	defer done()
 	assert.Empty(t, testutil.GetAllEntities(ctx, repositoryStarEventKind, t))
 
-	keys, err := (&LoadService{ ctx}).PutMulti([]*model.RepositoryStarEvent{
+	keys, err := (&LoadService{ ctx }).PutMulti([]*model.RepositoryStarEvent{
 		&model.RepositoryStarEvent{ "repo1", time.Now(), 42 },
 		&model.RepositoryStarEvent{ "repo2", time.Now(), 43 },
 	})
@@ -34,6 +34,19 @@ func TestGivenEmptyStoreWhenPutMultiTwoEntitiesThenStoreHasTwoEntities(t *testin
 	testutil.EnsureEntitiesAreCommitted(ctx, keys, t)
 
 	assert.Equal(t, 2, len(testutil.GetAllEntities(ctx, repositoryStarEventKind, t)))
+}
+
+func TestWhenPutMulti501EntitiesThenReturnErrorAsDatastoreProductionDoesntSupportIt(t *testing.T) {
+	ctx, done := testutil.MockContext(t)
+	defer done()
+	entities := make([]*model.RepositoryStarEvent, 0)
+	for i := 0; i < 501; i++ {
+		entities = append(entities, &model.RepositoryStarEvent{ "repo", time.Now(), 42 })
+	}
+
+	_, err := (&LoadService{ ctx }).PutMulti(entities)
+
+	assert.NotNil(t, err)
 }
 
 func TestGivenTaskWithOneElementWhenSendTaskThenNoError(t *testing.T) {

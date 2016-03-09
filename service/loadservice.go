@@ -7,12 +7,14 @@ import (
 	"google.golang.org/appengine/log"
 	"strings"
 	"google.golang.org/appengine/taskqueue"
+	"errors"
 )
 
 type LoadService struct {
 	Context context.Context
 }
 
+const maxElementsForDatastorePut = 500
 const defaultQueue = ""
 const separator = "\n"
 
@@ -26,6 +28,10 @@ func (self *LoadService) Put(entity *model.RepositoryStarEvent) (*datastore.Key,
 }
 
 func (self *LoadService) PutMulti(entities []*model.RepositoryStarEvent) ([]*datastore.Key, error) {
+	if len(entities) > maxElementsForDatastorePut {
+		return nil, errors.New("Limit exceeded. Can't store that many elements in datastore at once")
+	}
+
 	keys := make([]*datastore.Key, 0, len(entities))
 	for _, entity := range entities {
 		key := datastore.NewKey(self.Context, repositoryStarEventKind, self.stringId(entity), 0, nil)
