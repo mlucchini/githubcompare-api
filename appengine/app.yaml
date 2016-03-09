@@ -8,6 +8,9 @@ handlers:
   script: _go_app
 - url: /lib
   static_dir: web/lib
+- url: /
+  static_files: web/index.html
+  upload: web/index.html
 - url: .*
   static_dir: web
 
