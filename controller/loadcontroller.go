@@ -3,7 +3,6 @@ package controller
 import (
 	"net/http"
 	"google.golang.org/appengine"
-	"google.golang.org/appengine/log"
 	"github.com/julienschmidt/httprouter"
 	"github.com/mlucchini/github-compare-backend/network"
 	"github.com/mlucchini/github-compare-backend/service"
@@ -22,7 +21,7 @@ func (self *LoadController) Update(w http.ResponseWriter, r *http.Request, param
 	ctx := appengine.NewContext(r)
 	reader, done, err := (&network.BucketHandler{ ctx }).Reader(bucket, file)
 	if err != nil {
-		log.Errorf(ctx, err.Error())
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 	defer done()
