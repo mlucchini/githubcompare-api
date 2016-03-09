@@ -19,6 +19,9 @@ const separator = "\n"
 func (self *LoadService) Put(entity *model.RepositoryStarEvent) (*datastore.Key, error) {
 	key := datastore.NewKey(self.Context, repositoryStarEventKind, self.stringId(entity), 0, nil)
 	_, err := datastore.Put(self.Context, key, entity)
+	if err != nil {
+		log.Errorf(self.Context, "Failed to store element: %s", err.Error())
+	}
 	return key, err
 }
 
@@ -29,6 +32,9 @@ func (self *LoadService) PutMulti(entities []*model.RepositoryStarEvent) ([]*dat
 		keys = append(keys, key)
 	}
 	_, err := datastore.PutMulti(self.Context, keys, entities)
+	if err != nil {
+		log.Errorf(self.Context, "Failed to store elements: %s", err.Error())
+	}
 	return keys, err
 }
 
@@ -36,6 +42,7 @@ func (self *LoadService) SendTask(elements []string) (error) {
 	payload := strings.Join(elements, separator)
 	t := &taskqueue.Task{ Path: "/api/admin/loadtask", Payload: []byte(payload), Header: nil, Method: "POST" }
 	if _, err := taskqueue.Add(self.Context, t, defaultQueue); err != nil {
+		log.Errorf(self.Context, "Failed to send task: %s", err.Error())
 		return err
 	}
 	log.Infof(self.Context, "Added task with %d elements", len(elements))
@@ -57,10 +64,11 @@ func (self *LoadService) ReceiveTask(payload string, entitiesPerTask int) ([]*da
 	log.Infof(self.Context, "Received task with %d elements", len(elements))
 
 	keys, err := self.PutMulti(entities)
-	if err == nil {
-		log.Infof(self.Context, "Stored %d elements", len(elements))
+	if err != nil {
+		log.Errorf(self.Context, "Failed to send task: %s", err.Error())
+		return keys, err
 	}
-
+	log.Infof(self.Context, "Stored %d elements", len(elements))
 	return keys, err
 }
 
