@@ -13,7 +13,7 @@ import (
 
 type LoadController struct {}
 
-const entitiesPerTask = 500
+const entitiesPerTask = 100
 
 func (self *LoadController) Update(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 	bucket, file := params.ByName("bucket"), params.ByName("file")
