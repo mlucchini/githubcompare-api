@@ -12,7 +12,7 @@ func Run() {
 
 	router := httprouter.New()
 	router.GET("/api/stars/:org/:repository", starsController.Get)
-	router.GET("/api/admin/load/:bucket/:file", loadController.Update)
+	router.POST("/api/admin/load/:bucket/:file", loadController.Update)
 	router.POST("/api/admin/loadtask", loadController.Task)
 	http.Handle("/", router)
 }

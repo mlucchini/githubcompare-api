@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 source=~/.githubcompare/store/part-test
 
 while IFS=, read repository day stars
