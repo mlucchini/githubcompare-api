@@ -11,6 +11,9 @@ import (
 type StarsController struct {}
 
 func (self *StarsController) Get(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	
 	repositoryName := params.ByName("org") + "/" + params.ByName("repository")
 
 	ctx := appengine.NewContext(r)
