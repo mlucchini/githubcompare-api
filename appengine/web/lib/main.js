@@ -22,17 +22,8 @@
     }
     function populateChart(chart, repositories) {
         repositories.forEach(function(repository) {
-            d3.json("https://api.github.com/repos/" + repository, function(repoData) {
-                d3.json("/api/stars/" + repository, function (starsData) {
-                    if (starsData.length > 0) {
-                        var starsNextDay = repoData.watchers_count;
-                        for (var i = starsData.length - 1; i >= 0; i--) {
-                            starsData[i].stars = Math.max(0, starsNextDay - starsData[i].stars);
-                            starsNextDay = starsData[i].stars;
-                        }
-                        addChartSeries(chart, starsData, repository);
-                    }
-                });
+            d3.json("/api/stars/" + repository, function (starsData) {
+                addChartSeries(chart, starsData, repository);
             });
         })
     }
