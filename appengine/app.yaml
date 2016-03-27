@@ -1,6 +1,6 @@
 runtime: go
 api_version: go1
-application: githubcompare-backend
+application: githubcompare
 version: v2
 
 handlers:
