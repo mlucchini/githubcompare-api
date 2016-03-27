@@ -20,11 +20,11 @@ func (self *LoadController) Update(w http.ResponseWriter, r *http.Request, param
 
 	ctx := appengine.NewContext(r)
 	reader, done, err := (&network.BucketHandler{ ctx }).Reader(bucket, file)
+	defer done()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
-	defer done()
 
 	loadService := service.LoadService{ ctx }
 	for group := range lib.GroupLinesIterator(reader, entitiesPerTask) {
