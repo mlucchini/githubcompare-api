@@ -15,4 +15,7 @@ serve:
 deploy: test
 	cd appengine; goapp deploy
 
+update_queue:
+	cd appengine; appcfg.py update_queues
+
 .PHONY: vet build test serve deploy
