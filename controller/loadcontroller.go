@@ -19,14 +19,14 @@ func (self *LoadController) Update(w http.ResponseWriter, r *http.Request, param
 	bucket, file := params.ByName("bucket"), params.ByName("file")
 
 	ctx := appengine.NewContext(r)
-	reader, done, err := (&network.BucketHandler{ ctx }).Reader(bucket, file)
+	reader, done, err := (&network.BucketHandler{ Context: ctx }).Reader(bucket, file)
 	defer done()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
-	loadService := service.LoadService{ ctx }
+	loadService := service.LoadService{ Context: ctx }
 	for group := range lib.GroupLinesIterator(reader, entitiesPerTask) {
 		if err = loadService.SendTask(group); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -34,7 +34,7 @@ func (self *LoadController) Update(w http.ResponseWriter, r *http.Request, param
 		}
 	}
 
-	fmt.Fprintf(w, "All tasks created successfully. Follow progress via the App Engine console")
+	fmt.Fprintf(w, "All tasks created successfully. Follow progress via Task Queue in the App Engine console")
 }
 
 func (self *LoadController) Task(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -45,7 +45,7 @@ func (self *LoadController) Task(w http.ResponseWriter, r *http.Request, _ httpr
 		return
 	}
 
-	loadService := service.LoadService{ ctx }
+	loadService := service.LoadService{ Context: ctx }
 	if _, err = loadService.ReceiveTask(string(payload), entitiesPerTask); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

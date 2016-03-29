@@ -7,11 +7,11 @@ import (
 )
 
 func Run() {
-	starsController := controller.StarsController{}
+	statsController := controller.StatsController{}
 	loadController := controller.LoadController{}
 
 	router := httprouter.New()
-	router.GET("/api/stars/:org/:repository", starsController.Get)
+	router.GET("/api/stats/:org/:repository", statsController.Get)
 	router.POST("/api/admin/load/:bucket/:file", loadController.Update)
 	router.POST("/api/admin/loadtask", loadController.Task)
 

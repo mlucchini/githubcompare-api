@@ -18,8 +18,8 @@ const maxElementsForDatastorePut = 500
 const defaultQueue = ""
 const separator = "\n"
 
-func (self *LoadService) Put(entity *model.RepositoryStarEvent) (*datastore.Key, error) {
-	key := datastore.NewKey(self.Context, repositoryStarEventKind, self.stringId(entity), 0, nil)
+func (self *LoadService) Put(entity *model.RepositoryStats) (*datastore.Key, error) {
+	key := datastore.NewKey(self.Context, repositoryStatsKind, self.stringId(entity), 0, nil)
 	_, err := datastore.Put(self.Context, key, entity)
 	if err != nil {
 		log.Errorf(self.Context, "Failed to store element: %s", err.Error())
@@ -27,14 +27,14 @@ func (self *LoadService) Put(entity *model.RepositoryStarEvent) (*datastore.Key,
 	return key, err
 }
 
-func (self *LoadService) PutMulti(entities []*model.RepositoryStarEvent) ([]*datastore.Key, error) {
+func (self *LoadService) PutMulti(entities []*model.RepositoryStats) ([]*datastore.Key, error) {
 	if len(entities) > maxElementsForDatastorePut {
 		return nil, errors.New("Limit exceeded. Can't store that many elements in datastore at once")
 	}
 
 	keys := make([]*datastore.Key, 0, len(entities))
 	for _, entity := range entities {
-		key := datastore.NewKey(self.Context, repositoryStarEventKind, self.stringId(entity), 0, nil)
+		key := datastore.NewKey(self.Context, repositoryStatsKind, self.stringId(entity), 0, nil)
 		keys = append(keys, key)
 	}
 	_, err := datastore.PutMulti(self.Context, keys, entities)
@@ -57,11 +57,11 @@ func (self *LoadService) SendTask(elements []string) (error) {
 
 func (self *LoadService) ReceiveTask(payload string, entitiesPerTask int) ([]*datastore.Key, error) {
 	elements := strings.Split(string(payload), separator)
-	entities := make([]*model.RepositoryStarEvent, 0, entitiesPerTask)
+	entities := make([]*model.RepositoryStats, 0, entitiesPerTask)
 
-	for _, event := range elements {
-		var entity model.RepositoryStarEvent
-		if err := entity.Parse(event); err != nil {
+	for _, element := range elements {
+		var entity model.RepositoryStats
+		if err := entity.Parse(element); err != nil {
 			return nil, err
 		}
 		entities = append(entities, &entity)
@@ -78,6 +78,6 @@ func (self *LoadService) ReceiveTask(payload string, entitiesPerTask int) ([]*da
 	return keys, err
 }
 
-func (self *LoadService) stringId(entity *model.RepositoryStarEvent) string {
-	return entity.RepositoryName + "," + entity.Date.Format(model.YearMonthDayFormat)
+func (self *LoadService) stringId(entity *model.RepositoryStats) string {
+	return entity.RepositoryName
 }

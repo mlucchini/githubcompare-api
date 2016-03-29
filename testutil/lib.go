@@ -16,9 +16,9 @@ func MockContext(t *testing.T) (context.Context, func()) {
 	return ctx, done
 }
 
-func GetAllEntities(ctx context.Context, kind string, t *testing.T) ([]model.RepositoryStarEvent) {
+func GetAllEntities(ctx context.Context, kind string, t *testing.T) ([]model.RepositoryStats) {
 	query := datastore.NewQuery(kind)
-	entities := make([]model.RepositoryStarEvent, 0)
+	entities := make([]model.RepositoryStats, 0)
 	_, err := query.GetAll(ctx, &entities)
 	if err != nil {
 		t.Fatal(err)
@@ -28,18 +28,18 @@ func GetAllEntities(ctx context.Context, kind string, t *testing.T) ([]model.Rep
 
 func EnsureEntitiesAreCommitted(ctx context.Context, keys []*datastore.Key, t *testing.T) {
 	for _, key := range keys {
-		err := datastore.Get(ctx, key, &model.RepositoryStarEvent{})
+		err := datastore.Get(ctx, key, &model.RepositoryStats{})
 		if err != nil {
 			t.Fatal(err)
 		}
 	}
 }
 
-func LoadStore(ctx context.Context, entities []*model.RepositoryStarEvent, t *testing.T) {
+func LoadStore(ctx context.Context, entities []*model.RepositoryStats, t *testing.T) {
 	keys := make([]*datastore.Key, len(entities))
 	for i := 0; i < len(entities); i++ {
 		entity := entities[i]
-		keys[i] = datastore.NewKey(ctx, "RepositoryStarEvent", entity.RepositoryName + "," + entity.Date.Format(model.YearMonthDayFormat), 0, nil)
+		keys[i] = datastore.NewKey(ctx, "RepositoryStats", entity.RepositoryName, 0, nil)
 	}
 	_, err := datastore.PutMulti(ctx, keys, entities)
 	if err != nil {

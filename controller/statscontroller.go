@@ -8,21 +8,21 @@ import (
 	"github.com/mlucchini/github-compare-backend/service"
 )
 
-type StarsController struct {}
+type StatsController struct {}
 
-func (self *StarsController) Get(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+func (self *StatsController) Get(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	
 	repositoryName := params.ByName("org") + "/" + params.ByName("repository")
 
 	ctx := appengine.NewContext(r)
-	events, err := (&service.StarsService{ ctx }).FilterOnRepositorySortByDate(repositoryName)
+	entity, err := (&service.StatsService{ ctx }).GetRepository(repositoryName)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
 	encoder := json.NewEncoder(w)
-	encoder.Encode(events)
+	encoder.Encode(entity)
 }

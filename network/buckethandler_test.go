@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGivenInexistingFileWhenReadFromStorageThenFailsOnInexistingObject(t *testing.T) {
+func TestReader(t *testing.T) {
 	ctx, ctxDone, err := aetest.NewContext()
 	assert.Nil(t, err)
 	defer ctxDone()

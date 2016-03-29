@@ -5,43 +5,42 @@ import (
 	"github.com/mlucchini/github-compare-backend/model"
 	"github.com/mlucchini/github-compare-backend/testutil"
 	"github.com/stretchr/testify/assert"
-	"time"
 	"google.golang.org/appengine/datastore"
 )
 
 func TestGivenEmptyStoreWhenPutOneEntityThenStoreHasOneEntity(t *testing.T) {
 	ctx, done := testutil.MockContext(t)
 	defer done()
-	assert.Empty(t, testutil.GetAllEntities(ctx, repositoryStarEventKind, t))
+	assert.Empty(t, testutil.GetAllEntities(ctx, repositoryStatsKind, t))
 
-	key, err := (&LoadService{ ctx }).Put(&model.RepositoryStarEvent{ "repo", time.Now(), 42 })
+	key, err := (&LoadService{ ctx }).Put(&model.RepositoryStats{ "repo", []int{ 41, 42, 43 } })
 	assert.Nil(t, err)
 	testutil.EnsureEntitiesAreCommitted(ctx, []*datastore.Key{key}, t)
 
-	assert.Equal(t, 1, len(testutil.GetAllEntities(ctx, repositoryStarEventKind, t)))
+	assert.Equal(t, 1, len(testutil.GetAllEntities(ctx, repositoryStatsKind, t)))
 }
 
 func TestGivenEmptyStoreWhenPutMultiTwoEntitiesThenStoreHasTwoEntities(t *testing.T) {
 	ctx, done := testutil.MockContext(t)
 	defer done()
-	assert.Empty(t, testutil.GetAllEntities(ctx, repositoryStarEventKind, t))
+	assert.Empty(t, testutil.GetAllEntities(ctx, repositoryStatsKind, t))
 
-	keys, err := (&LoadService{ ctx }).PutMulti([]*model.RepositoryStarEvent{
-		&model.RepositoryStarEvent{ "repo1", time.Now(), 42 },
-		&model.RepositoryStarEvent{ "repo2", time.Now(), 43 },
+	keys, err := (&LoadService{ ctx }).PutMulti([]*model.RepositoryStats{
+		&model.RepositoryStats{ "repo1", []int{ 41, 42, 43 } },
+		&model.RepositoryStats{ "repo2", []int{ 41, 42, 43 } },
 	})
 	assert.Nil(t, err)
 	testutil.EnsureEntitiesAreCommitted(ctx, keys, t)
 
-	assert.Equal(t, 2, len(testutil.GetAllEntities(ctx, repositoryStarEventKind, t)))
+	assert.Equal(t, 2, len(testutil.GetAllEntities(ctx, repositoryStatsKind, t)))
 }
 
 func TestWhenPutMulti501EntitiesThenReturnErrorAsDatastoreProductionDoesntSupportIt(t *testing.T) {
 	ctx, done := testutil.MockContext(t)
 	defer done()
-	entities := make([]*model.RepositoryStarEvent, 0)
+	entities := make([]*model.RepositoryStats, 0)
 	for i := 0; i < 501; i++ {
-		entities = append(entities, &model.RepositoryStarEvent{ "repo", time.Now(), 42 })
+		entities = append(entities, &model.RepositoryStats{ "repo", []int{ 41, 42, 43 } })
 	}
 
 	_, err := (&LoadService{ ctx }).PutMulti(entities)
@@ -62,11 +61,11 @@ func TestGivenTaskWithOneElementWhenSendTaskThenNoError(t *testing.T) {
 func TestGivenPayloadWithTwoElementsWhenReceiveTaskThenStoreHasTwoEntities(t *testing.T) {
 	ctx, done := testutil.MockContext(t)
 	defer done()
-	assert.Empty(t, testutil.GetAllEntities(ctx, repositoryStarEventKind, t))
+	assert.Empty(t, testutil.GetAllEntities(ctx, repositoryStatsKind, t))
 
-	keys, err := (&LoadService{ ctx }).ReceiveTask("repo1,2016-01-01,42\nrepo2,2016-01-02,43", 1000)
+	keys, err := (&LoadService{ ctx }).ReceiveTask("repo1,41;42\nrepo2,43", 1000)
 	assert.Nil(t, err)
 	testutil.EnsureEntitiesAreCommitted(ctx, keys, t)
 
-	assert.Equal(t, 2, len(testutil.GetAllEntities(ctx, repositoryStarEventKind, t)))
+	assert.Equal(t, 2, len(testutil.GetAllEntities(ctx, repositoryStatsKind, t)))
 }
