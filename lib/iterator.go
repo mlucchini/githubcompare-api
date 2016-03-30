@@ -5,7 +5,7 @@ import (
 	"bufio"
 )
 
-func groupLinesIterator(reader io.Reader, nbLinesPerGroup int) (<- chan []string) {
+func GroupLinesIterator(reader io.Reader, nbLinesPerGroup int) (<- chan []string) {
 	channel := make(chan []string)
 	go split(reader, nbLinesPerGroup, channel)
 	return channel

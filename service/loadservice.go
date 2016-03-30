@@ -19,7 +19,7 @@ const defaultQueue = ""
 const separator = "\n"
 
 func (self *LoadService) Put(entity *model.RepositoryStats) (*datastore.Key, error) {
-	key := datastore.NewKey(self.Context, repositoryStatsKind, self.stringId(entity), 0, nil)
+	key := datastore.NewKey(self.Context, RepositoryStatsKind, self.stringId(entity), 0, nil)
 	_, err := datastore.Put(self.Context, key, entity)
 	if err != nil {
 		log.Errorf(self.Context, "Failed to store element: %s", err.Error())
@@ -34,7 +34,7 @@ func (self *LoadService) PutMulti(entities []*model.RepositoryStats) ([]*datasto
 
 	keys := make([]*datastore.Key, 0, len(entities))
 	for _, entity := range entities {
-		key := datastore.NewKey(self.Context, repositoryStatsKind, self.stringId(entity), 0, nil)
+		key := datastore.NewKey(self.Context, RepositoryStatsKind, self.stringId(entity), 0, nil)
 		keys = append(keys, key)
 	}
 	_, err := datastore.PutMulti(self.Context, keys, entities)

@@ -11,19 +11,19 @@ import (
 func TestGivenEmptyStoreWhenPutOneEntityThenStoreHasOneEntity(t *testing.T) {
 	ctx, done := testutil.MockContext(t)
 	defer done()
-	assert.Empty(t, testutil.GetAllEntities(ctx, repositoryStatsKind, t))
+	assert.Empty(t, testutil.GetAllEntities(ctx, RepositoryStatsKind, t))
 
 	key, err := (&LoadService{ ctx }).Put(&model.RepositoryStats{ "repo", []int{ 41, 42, 43 } })
 	assert.Nil(t, err)
 	testutil.EnsureEntitiesAreCommitted(ctx, []*datastore.Key{key}, t)
 
-	assert.Equal(t, 1, len(testutil.GetAllEntities(ctx, repositoryStatsKind, t)))
+	assert.Equal(t, 1, len(testutil.GetAllEntities(ctx, RepositoryStatsKind, t)))
 }
 
 func TestGivenEmptyStoreWhenPutMultiTwoEntitiesThenStoreHasTwoEntities(t *testing.T) {
 	ctx, done := testutil.MockContext(t)
 	defer done()
-	assert.Empty(t, testutil.GetAllEntities(ctx, repositoryStatsKind, t))
+	assert.Empty(t, testutil.GetAllEntities(ctx, RepositoryStatsKind, t))
 
 	keys, err := (&LoadService{ ctx }).PutMulti([]*model.RepositoryStats{
 		&model.RepositoryStats{ "repo1", []int{ 41, 42, 43 } },
@@ -32,7 +32,7 @@ func TestGivenEmptyStoreWhenPutMultiTwoEntitiesThenStoreHasTwoEntities(t *testin
 	assert.Nil(t, err)
 	testutil.EnsureEntitiesAreCommitted(ctx, keys, t)
 
-	assert.Equal(t, 2, len(testutil.GetAllEntities(ctx, repositoryStatsKind, t)))
+	assert.Equal(t, 2, len(testutil.GetAllEntities(ctx, RepositoryStatsKind, t)))
 }
 
 func TestWhenPutMulti501EntitiesThenReturnErrorAsDatastoreProductionDoesntSupportIt(t *testing.T) {
@@ -61,11 +61,11 @@ func TestGivenTaskWithOneElementWhenSendTaskThenNoError(t *testing.T) {
 func TestGivenPayloadWithTwoElementsWhenReceiveTaskThenStoreHasTwoEntities(t *testing.T) {
 	ctx, done := testutil.MockContext(t)
 	defer done()
-	assert.Empty(t, testutil.GetAllEntities(ctx, repositoryStatsKind, t))
+	assert.Empty(t, testutil.GetAllEntities(ctx, RepositoryStatsKind, t))
 
 	keys, err := (&LoadService{ ctx }).ReceiveTask("repo1,41;42\nrepo2,43", 1000)
 	assert.Nil(t, err)
 	testutil.EnsureEntitiesAreCommitted(ctx, keys, t)
 
-	assert.Equal(t, 2, len(testutil.GetAllEntities(ctx, repositoryStatsKind, t)))
+	assert.Equal(t, 2, len(testutil.GetAllEntities(ctx, RepositoryStatsKind, t)))
 }

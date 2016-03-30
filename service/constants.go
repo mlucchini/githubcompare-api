@@ -1,3 +1,3 @@
 package service
 
-const repositoryStatsKind = "RepositoryStats"
+const RepositoryStatsKind = "RepositoryStats"

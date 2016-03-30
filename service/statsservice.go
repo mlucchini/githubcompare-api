@@ -14,7 +14,7 @@ type StatsService struct {
 func (self *StatsService) GetRepository(repositoryName string) (*model.RepositoryStats, error) {
 	var entity model.RepositoryStats
 
-	key := datastore.NewKey(self.Context, repositoryStatsKind, repositoryName, 0, nil)
+	key := datastore.NewKey(self.Context, RepositoryStatsKind, repositoryName, 0, nil)
 	err := datastore.Get(self.Context, key, &entity)
 
 	if err != nil {

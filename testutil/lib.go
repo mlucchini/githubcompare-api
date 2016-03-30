@@ -6,6 +6,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/appengine/datastore"
 	"github.com/mlucchini/github-compare-backend/model"
+	"github.com/mlucchini/github-compare-backend/service"
 )
 
 func MockContext(t *testing.T) (context.Context, func()) {
@@ -39,7 +40,7 @@ func LoadStore(ctx context.Context, entities []*model.RepositoryStats, t *testin
 	keys := make([]*datastore.Key, len(entities))
 	for i := 0; i < len(entities); i++ {
 		entity := entities[i]
-		keys[i] = datastore.NewKey(ctx, "RepositoryStats", entity.RepositoryName, 0, nil)
+		keys[i] = datastore.NewKey(ctx, service.RepositoryStatsKind, entity.RepositoryName, 0, nil)
 	}
 	_, err := datastore.PutMulti(ctx, keys, entities)
 	if err != nil {
