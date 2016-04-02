@@ -2,8 +2,8 @@ package service
 
 import (
 	"testing"
-	"github.com/mlucchini/github-compare-backend/model"
-	"github.com/mlucchini/github-compare-backend/testutil"
+	"github.com/mlucchini/githubcompare/model"
+	"github.com/mlucchini/githubcompare/testutil"
 	"github.com/stretchr/testify/assert"
 )
 

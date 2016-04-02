@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/mlucchini/github-compare-backend/model"
+	"github.com/mlucchini/githubcompare/model"
 	"golang.org/x/net/context"
 	"google.golang.org/appengine/datastore"
 	"google.golang.org/appengine/log"

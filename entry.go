@@ -1,7 +1,7 @@
 package entry
 
 import (
-	"github.com/mlucchini/github-compare-backend/controller"
+	"github.com/mlucchini/githubcompare/controller"
 	"github.com/julienschmidt/httprouter"
 	"net/http"
 )

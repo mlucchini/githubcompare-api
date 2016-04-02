@@ -4,10 +4,10 @@ import (
 	"net/http"
 	"google.golang.org/appengine"
 	"github.com/julienschmidt/httprouter"
-	"github.com/mlucchini/github-compare-backend/network"
-	"github.com/mlucchini/github-compare-backend/service"
+	"github.com/mlucchini/githubcompare/network"
+	"github.com/mlucchini/githubcompare/service"
 	"io/ioutil"
-	"github.com/mlucchini/github-compare-backend/lib"
+	"github.com/mlucchini/githubcompare/lib"
 	"fmt"
 )
 

@@ -5,7 +5,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"google.golang.org/appengine"
 	"encoding/json"
-	"github.com/mlucchini/github-compare-backend/service"
+	"github.com/mlucchini/githubcompare/service"
 )
 
 type StatsController struct {}

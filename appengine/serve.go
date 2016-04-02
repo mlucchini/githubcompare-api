@@ -1,7 +1,7 @@
 package appengine
 
 import (
-	"github.com/mlucchini/github-compare-backend"
+	"github.com/mlucchini/githubcompare"
 )
 
 func init() {

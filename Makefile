@@ -13,6 +13,7 @@ serve:
 	cd appengine; goapp serve
 
 deploy: test
+	cd frontend; npm run build
 	cd appengine; goapp deploy
 
 update_queue:
