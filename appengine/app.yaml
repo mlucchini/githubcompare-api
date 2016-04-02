@@ -19,3 +19,13 @@ handlers:
 
 inbound_services:
 - warmup
+
+skip_files:
+- ^(.*/)?#.*#$
+- ^(.*/)?.*~$
+- ^(.*/)?.*\.py[co]$
+- ^(.*/)?.*/RCS/.*$
+- ^(.*/)?\..*$
+- ^frontend/.*
+
+default_expiration: "1h"
