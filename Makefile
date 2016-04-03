@@ -1,4 +1,4 @@
-default: build
+default: test
 
 vet:
 	go vet ./...
@@ -12,14 +12,17 @@ test: build
 serve:
 	cd appengine; goapp serve
 
-deploy: test
-	cd frontend; npm run build; cp -R www/ ../appengine/web
-	cd appengine; goapp deploy
-
 update_queue:
 	cd appengine; appcfg.py update_queues
 
-eslint:
-	cd frontend; ./node_modules/eslint/bin/eslint.js app/** --ext .jsx,.js
+esbuild:
+	cd frontend; npm run build
 
-.PHONY: vet build test serve deploy update_queue eslint
+eslint:
+	cd frontend; ./node_modules/eslint/bin/eslint.js app --ext ".jsx,.js"
+
+deploy: test esbuild eslint
+	cp -R frontend/www/ appengine/web
+	cd appengine; goapp deploy
+
+.PHONY: vet build test serve update_queue esbuild eslint deploy
