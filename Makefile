@@ -19,7 +19,7 @@ esbuild:
 	cd frontend; npm run build
 
 eslint:
-	cd frontend; ./node_modules/eslint/bin/eslint.js app --ext ".jsx,.js"
+	cd frontend; npm run lint
 
 deploy: test esbuild eslint
 	cp -R frontend/www/ appengine/web
