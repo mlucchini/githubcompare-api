@@ -25,7 +25,7 @@ func (self *RepoController) Get(w http.ResponseWriter, r* http.Request, params h
 		return
 	}
 	if resp.StatusCode != http.StatusOK {
-		http.Error(w, err.Error(), resp.StatusCode)
+		http.Error(w, "The repository " + repositoryName + " could not be retrieved", resp.StatusCode)
 		return
 	}
 
