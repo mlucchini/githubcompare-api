@@ -1,0 +1,125 @@
+[
+  {
+    "category": "Front-end Javascript frameworks",
+    "description": "Some tools that help you build single-page applications",
+    "icon": "explore",
+    "repositories": [
+      "angular/angular.js",
+      "facebook/react",
+      "jashkenas/backbone",
+      "emberjs/ember.js"
+    ]
+  },
+  {
+    "category": "Server-side web frameworks",
+    "description": "Productivity and performance to build scalable web applications",
+    "icon": "cloud",
+    "repositories": [
+      "meteor/meteor",
+      "rails/rails",
+      "expressjs/express",
+      "laravel/laravel",
+      "pallets/flask",
+      "playframework/playframework"
+    ]
+  },
+  {
+    "category": "Front-end build systems",
+    "description": "Simple automation",
+    "icon": "build",
+    "repositories": [
+      "gruntjs/grunt",
+      "gulpjs/gulp",
+      "webpack/webpack"
+    ]
+  },
+  {
+    "category": "Configuration Management tools",
+    "description": "Server automation framework and applications",
+    "icon": "nfc",
+    "repositories": [
+      "ansible/ansible",
+      "chef/chef",
+      "puppetlabs/puppet",
+      "saltstack/salt",
+      "capistrano/capistrano"
+    ]
+  },
+  {
+    "category": "Unikernels",
+    "description": "Open-source library operating systems",
+    "icon": "call_split",
+    "repositories": [
+      "cloudius-systems/osv",
+      "runtimejs/runtime",
+      "mirage/mirage",
+      "rumpkernel/rumprun"
+    ]
+  },
+  {
+    "category": "API gateways",
+    "description": "Scalable, high-performance open-source API layers",
+    "icon": "gesture",
+    "repositories": [
+      "strongloop/loopback",
+      "mashape/kong",
+      "TykTechnologies/tyk"
+    ]
+  },
+  {
+    "category": "Containers",
+    "description": "Container engines to pack, ship and run your applications as lightweight containers",
+    "icon": "link",
+    "repositories": [
+      "docker/docker",
+      "cloudfoundry/warden",
+      "cloudfoundry-incubator/garden",
+      "coreos/rkt"
+    ]
+  },
+  {
+    "category": "Design frameworks",
+    "description": "Popular HTML, CSS, and JavaScript frameworks for developing responsive, mobile first projects on the web",
+    "icon": "art_track",
+    "repositories": [
+      "twbs/bootstrap",
+      "h5bp/html5-boilerplate",
+      "daneden/animate.css",
+      "zurb/foundation-sites",
+      "necolas/normalize.css"
+    ]
+  },
+  {
+    "category": "Text editors",
+    "description": "Some amazingly awesome open source editors",
+    "icon": "home",
+    "repositories": [
+      "atom/atom",
+      "adobe/brackets",
+      "neovim/neovim",
+      "limetext/lime",
+      "textmate/textmate"
+    ]
+  },
+  {
+    "category": "NoSQL databases",
+    "description": "Non-relational, distributed, open-source and horizontally scalable databases",
+    "icon": "save",
+    "repositories": [
+      "antirez/redis",
+      "rethinkdb/rethinkdb",
+      "mongodb/mongo",
+      "pouchdb/pouchdb"
+    ]
+  },
+  {
+    "category": "CSS preprocessors",
+    "description": "Helps you write maintainable, future-proof CSS code",
+    "icon": "content_cut",
+    "repositories": [
+      "less/less.js",
+      "sass/sass",
+      "stylus/stylus"
+    ]
+  }
+]
