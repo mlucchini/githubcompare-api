@@ -1,6 +1,7 @@
 **/node_modules
 **/build
 **/npm-debug.log
-**/www/react-*
 **/.idea
 **/appengine/web
+frontend/www/react-*
+auth/credentials

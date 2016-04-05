@@ -6,6 +6,7 @@ import (
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/urlfetch"
 	"io/ioutil"
+	"github.com/mlucchini/githubcompare/auth"
 )
 
 type RepoController struct {}
@@ -19,7 +20,7 @@ func (self *RepoController) Get(w http.ResponseWriter, r* http.Request, params h
 
 	ctx := appengine.NewContext(r)
 	client := urlfetch.Client(ctx)
-	resp, err := client.Get("https://api.github.com/repos/" + repositoryName)
+	resp, err := client.Get("https://api.github.com/repos/" + repositoryName + auth.GithubUrlSuffix())
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
