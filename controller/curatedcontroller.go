@@ -3,7 +3,7 @@ package controller
 import (
 	"net/http"
 	"github.com/julienschmidt/httprouter"
-	"github.com/mlucchini/githubcompare/service"
+	"github.com/mlucchini/githubcompare-api/service"
 )
 
 type CuratedController struct {}

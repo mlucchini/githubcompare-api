@@ -4,7 +4,7 @@ import (
 	"google.golang.org/appengine/datastore"
 	"google.golang.org/appengine/log"
 	"golang.org/x/net/context"
-	"github.com/mlucchini/githubcompare/model"
+	"github.com/mlucchini/githubcompare-api/model"
 )
 
 type StatsService struct {

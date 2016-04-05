@@ -5,7 +5,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"google.golang.org/appengine"
 	"encoding/json"
-	"github.com/mlucchini/githubcompare/service"
+	"github.com/mlucchini/githubcompare-api/service"
 )
 
 type StatsController struct {}
@@ -18,7 +18,7 @@ func (self *StatsController) Get(w http.ResponseWriter, r *http.Request, params 
 	repositoryName := params.ByName("org") + "/" + params.ByName("repository")
 
 	ctx := appengine.NewContext(r)
-	entity, err := (&service.StatsService{ ctx }).GetRepository(repositoryName)
+	entity, err := (&service.StatsService{ Context: ctx }).GetRepository(repositoryName)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return

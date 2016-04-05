@@ -2,8 +2,8 @@ package service
 
 import (
 	"testing"
-	"github.com/mlucchini/githubcompare/model"
-	"github.com/mlucchini/githubcompare/testutil"
+	"github.com/mlucchini/githubcompare-api/model"
+	"github.com/mlucchini/githubcompare-api/testutil"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -20,8 +20,8 @@ func TestGivenTwoEntitiesWhenGetRepositoryThenReturnOneEntity(t *testing.T) {
 	ctx, done := testutil.MockContext(t)
 	defer done()
 	testutil.LoadStore(ctx, []*model.RepositoryStats{
-		&model.RepositoryStats{ "repo1", []int{ 41, 42, 43 } },
-		&model.RepositoryStats{ "repo2", []int{ 41, 42, 43 } },
+		&model.RepositoryStats{ RepositoryName: "repo1", Stars: []int{ 41, 42, 43 } },
+		&model.RepositoryStats{ RepositoryName: "repo2", Stars: []int{ 41, 42, 43 } },
 	}, t)
 
 	result, err := (&StatsService{ ctx }).GetRepository("repo1")

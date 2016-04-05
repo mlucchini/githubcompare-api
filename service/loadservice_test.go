@@ -2,8 +2,8 @@ package service
 
 import (
 	"testing"
-	"github.com/mlucchini/githubcompare/model"
-	"github.com/mlucchini/githubcompare/testutil"
+	"github.com/mlucchini/githubcompare-api/model"
+	"github.com/mlucchini/githubcompare-api/testutil"
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/appengine/datastore"
 )
@@ -13,7 +13,7 @@ func TestGivenEmptyStoreWhenPutOneEntityThenStoreHasOneEntity(t *testing.T) {
 	defer done()
 	assert.Empty(t, testutil.GetAllEntities(ctx, RepositoryStatsKind, t))
 
-	key, err := (&LoadService{ ctx }).Put(&model.RepositoryStats{ "repo", []int{ 41, 42, 43 } })
+	key, err := (&LoadService{ ctx }).Put(&model.RepositoryStats{ RepositoryName: "repo", Stars: []int{ 41, 42, 43 } })
 	assert.Nil(t, err)
 	testutil.EnsureEntitiesAreCommitted(ctx, []*datastore.Key{key}, t)
 
@@ -26,8 +26,8 @@ func TestGivenEmptyStoreWhenPutMultiTwoEntitiesThenStoreHasTwoEntities(t *testin
 	assert.Empty(t, testutil.GetAllEntities(ctx, RepositoryStatsKind, t))
 
 	keys, err := (&LoadService{ ctx }).PutMulti([]*model.RepositoryStats{
-		&model.RepositoryStats{ "repo1", []int{ 41, 42, 43 } },
-		&model.RepositoryStats{ "repo2", []int{ 41, 42, 43 } },
+		&model.RepositoryStats{ RepositoryName: "repo1", Stars: []int{ 41, 42, 43 } },
+		&model.RepositoryStats{ RepositoryName: "repo2", Stars: []int{ 41, 42, 43 } },
 	})
 	assert.Nil(t, err)
 	testutil.EnsureEntitiesAreCommitted(ctx, keys, t)
@@ -40,7 +40,7 @@ func TestWhenPutMulti501EntitiesThenReturnErrorAsDatastoreProductionDoesntSuppor
 	defer done()
 	entities := make([]*model.RepositoryStats, 0)
 	for i := 0; i < 501; i++ {
-		entities = append(entities, &model.RepositoryStats{ "repo", []int{ 41, 42, 43 } })
+		entities = append(entities, &model.RepositoryStats{ RepositoryName: "repo", Stars: []int{ 41, 42, 43 } })
 	}
 
 	_, err := (&LoadService{ ctx }).PutMulti(entities)

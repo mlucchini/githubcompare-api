@@ -5,7 +5,7 @@ import (
 	"testing"
 	"golang.org/x/net/context"
 	"google.golang.org/appengine/datastore"
-	"github.com/mlucchini/githubcompare/model"
+	"github.com/mlucchini/githubcompare-api/model"
 )
 
 func MockContext(t *testing.T) (context.Context, func()) {

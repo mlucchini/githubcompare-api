@@ -1,13 +1,13 @@
 default: test
 
-vet:
-	go vet ./...
+get:
+	go get ./...
 
-build: vet
+build: get
 	go build ./...
 
 test: build
-	goapp test ./...
+	go test ./... -cover
 
 serve:
 	cd appengine; goapp serve
@@ -15,14 +15,4 @@ serve:
 update_queue:
 	cd appengine; appcfg.py update_queues
 
-esbuild:
-	cd frontend; npm run build
-
-eslint:
-	cd frontend; npm run lint
-
-deploy: test esbuild eslint
-	cp -R frontend/www/ appengine/web
-	cd appengine; goapp deploy
-
-.PHONY: vet build test serve update_queue esbuild eslint deploy
+.PHONY: get build test serve update_queue

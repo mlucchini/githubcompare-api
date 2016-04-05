@@ -6,7 +6,7 @@ import (
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/urlfetch"
 	"io/ioutil"
-	"github.com/mlucchini/githubcompare/auth"
+	"github.com/mlucchini/githubcompare-api/auth"
 )
 
 type RepoController struct {}
